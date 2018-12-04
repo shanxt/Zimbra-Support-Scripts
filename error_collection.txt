@@ -1,2 +1,4 @@
 Nov 28 15:06:57 YIMTA7361 saslauthd[45799]: auth_zimbra: ztest.2045@example.in auth failed: curl_easy_perform: error(56): Received HTTP code 503 from proxy after CONNECT
 
+Sep 17 05:20:09 zm-mta-yk94 saslauthd[27042]: auth_zimbra: fisherprice@example.com auth failed: curl_easy_perform: error(7): Failed to connect to zm-mbox5-nxa.example.com port 7073: Connection refused
+

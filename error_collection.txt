@@ -1,0 +1,34 @@
+
+
+==================================================================================
+Mar  9 15:02:32 email postfix/error[3812]: BB01C2C05DBB5:to=<username@example.com>, relay=none, delay=0.13, delays=0.08/0.02/0/0.03,dsn=5.0.0, status=bounced (example.com)
+==================================================================================
+Nov  4 00:05:44 zms-vm03 postfix/error[31690]: 8C3CD6534E:to=<user.name@example.com>, relay=none, delay=42482, delays=42482/0.02/0/0, dsn=4.4.1, status=deferred (delivery temporarily suspended: connect to 127.0.0.1[127.0.0.1]:10024: Connection refused)
+==================================================================================
+Nov 29 03:09:37 mail postfix/smtpd[7409]: NOQUEUE: reject: RCPT from mail-qaws1-q43.google.com[209.85.161.43]: 554 5.7.1 Service unavailable; Client host [192.168.1.12] blocked using dnsbl.sorbs.net; 
+==================================================================================
+Oct 25 09:47:42 OPWCCVDRMTA02 postfix/error[23005]: DB30D18800C9: to=<user.name@example.com>, orig_to=<mytestuser@testdomain.com>, relay=none, delay=0.02, delays=0.01/0/0/0, dsn=5.1.1, status=bounced (User unknown in virtual alias table)
+==================================================================================
+Aug 20 15:20:15 mta-n1 postfix/error[16678]: 70E7F8030F: to=<test.user@example.com>, relay=none, delay=1159, delays=1159/0.08/0/0.11, dsn=4.0.0, status=deferred (delivery temporarily suspended: host mailbox01.example.com[x.x.x.x] refused to talk to me: 421 mailbox01.example.com Zimbra LMTP server closing connection; service busy)
+==================================================================================
+
+
+Nov 14 07:15:09 mta01 postfix/smtp[21002]: 5DA50162519: to=<admin@example.com>, relay=none, delay=2635, delays=2635/0.02/0/0, dsn=4.4.1, status=deferred (connect to mail.example.com[10.1.51.72]:25: Connection refused)
+
+==================================================================================
+Jul  3 06:40:18 zimmta1 postfix/error[19820]: 999E94421D: to=<info@example.com>, relay=none, delay=55669, delays=55668/0.61/0/0.08, dsn=4.0.0, status=deferred (delivery temporarily suspended: host smtpc.example.com[192.168.1.5] refused to talk to me: 554-smtpc.fbi.gov 554 Your access to this mail system has been rejected due to the sending MTA's poor reputation. If you believe that this failure is in error, please contact the intended recipient via alternate means.)
+
+==================================================================================
+Jul  3 13:14:06 zimmta1 postfix/smtp[3148]: 126A2416CE: host aspmx.l.google.com[173.194.204.27] said: 421-4.7.0 [68.142.188.166       4] Our system has detected an unusual rate of 421-4.7.0 unsolicited mail originating from your IP address. To protect our 421-4.7.0 users from spam, mail sent from your IP address has been temporarily 421-4.7.0 rate limited. Please visit 421-4.7.0  https://support.google.com/mail/answer/81126 to review our Bulk Email 421 4.7.0 Senders Guidelines. e5si11026225qga.85 - gsmtp (in reply to end of DATA command)
+
+==================================================================================
+Nov 21 08:00:05 vmzcss01 postfix/smtpd[901]: NOQUEUE: milter-reject: RCPT from s1027628.asdfgh.lan[10.20.228.10]: 571 571 Sender is not allowed to email this distribution list: helpdesk@example.com; from=<QSECOFR@testexample.com> to=<helpdesk@example.com> proto=ESMTP helo=<AS400.testexample.com>
+
+==================================================================================
+Nov 21 08:10:29 vmzcss01 postfix/error[22358]: 9869E2C0068: to=<user.name@example.com>, relay=none, delay=0.07, delays=0.03/0.01/0/0.03, dsn=5.0.0, status=bounced (example.com)
+
+==================================================================================
+
+
+
+

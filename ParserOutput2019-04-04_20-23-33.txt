@@ -1,0 +1,17 @@
+MTA Errors:
+status=deferred (delivery temporarily suspended: host mailbox01.example.com[x.x.x.x] refused to talk to me: 421 mailbox01.example.com Zimbra LMTP server closing connection; service busy)
+
+status=bounced (User unknown in virtual alias table)
+
+status=deferred (connect to mail.example.com[10.1.51.72]:25: Connection refused)
+
+status=deferred (delivery temporarily suspended: connect to 127.0.0.1[127.0.0.1]:10024: Connection refused)
+
+status=bounced (example.com)
+
+status=deferred (delivery temporarily suspended: host smtpc.example.com[192.168.1.5] refused to talk to me: 554-smtpc.fbi.gov 554 Your access to this mail system has been rejected due to the sending MTA's poor reputation. If you believe that this failure is in error, please contact the intended recipient via alternate means.)
+
+
+Possible Solutions for the above errors could be but not limited to: 
+Solution 1: 
+Solution 2: 

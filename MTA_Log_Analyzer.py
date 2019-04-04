@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 # DOCSTART
 # This is Log Analyzing script for the MTA.
 # The script will look for the "familiar" error codes in the given log file and
@@ -8,11 +10,13 @@
 # Written by    :
 # Reviewed by   :
 # Written Date  :
-#
+# Version       : 1.0
+
 # Input Variables
-#  LOGFILE_NAME = < Name of the logfile to be processed with absolute path >
+#  LOGFILE_NAME = <hard coded for now, it can be added as argument>
 
 # Output Variables
+# It prints the output data to a text file 
 
 # Assumptions :
 # 1. All the Required Utilities where installed and working
@@ -24,154 +28,66 @@
 # ########IMPORTS SECTION########
 
 import re
-import hashlib
-import optparse
-import logging
-import sys
-import random
-import string
+import time
+from time import strftime
 
-class MultiRegex(object):
-    flags = re.DOTALL
-    regexes = ()
-
-    def __init__(self):
-        '''
-        compile a disjunction of regexes, in order
-        '''
-        self._regex = re.compile("|".join(self.regexes), self.flags)
-
-    def sub(self, s):
-        return self._regex.sub(self._sub, s)
-
-    def _sub(self, mo):
-        '''
-        determine which partial regex matched, and
-        dispatch on self accordingly.
-        '''
-        for k,v in mo.groupdict().iteritems():
-            if v:
-                sub = getattr(self, k)
-                if callable(sub):
-                    return sub(mo)
-                return sub
-        raise AttributeError, \
-             'nothing captured, matching sub-regex could not be identified'
-
-
-
-class MTA_Errors():
-    
-
-    bounce_error = ()
-    deferred_error = ()
-    inputfile = '/home/dselvam/zimbra_support_git/Zimbra-Support-Scripts/error_collection.txt'
-    pattern1 = 'status=bounced'
-    pattern2 = 'status=deferred'
-    
-    error_to_catch = getattr(__builtins__,'FileNotFoundError', IOError)
-    try:
-        f = open(inputfile)
-    except error_to_catch:
-        raise
-        print('!')
-
-    def Postfix_Errors():
-        patterns = ["status=bounced", "status=deferred"]
-        regex = re.compile(pattern1)
-        #for line in enumerate(open(inputfile)):
-        for line in open('/home/dselvam/zimbra_support_git/Zimbra-Support-Scripts/error_collection.txt', 'r'):
-            print(line)
-            my_match = regex.findall(line, re.MULTILINE)
-            print(my_match)
-            for match in my_match:
-                print(match)
-            #for match in re.finditer(pattern1, line):
-             #   print("Finding pattern  %s" % log_file)
-            #    print("Test" % match)
-                #return 'Postfix Deferred Error'
-
-
+# Main function consists of primary executable code, main() function is not
+# mandatory in Python but it brings order to the program.
 
 def main():
+    log_file_path = "/home/deeps/git_deeps/Zimbra-Support-Scripts/error_collection.txt"
+    export_file_path = "/home/deeps/git_deeps/Zimbra-Support-Scripts/"
+ 
+    time_now = str(strftime("%Y-%m-%d %H-%M-%S", time.localtime()))
+ 
+    file = "ParserOutput" + time_now + ".txt"
+    export_file = export_file_path + file
+    export_file = export_file.replace(' ', '_')
+ 
+    #regex = '(?:status=[b|d|s]+.*$)'
+    regex = '(?:status=[b|d]+.*$)'
+ 
+    parseData(log_file_path, export_file, regex, read_line=True)
+ 
+# parseData() - function reads the input file line by line and looks for 
+# the pattern(aka, regular expression) which is defined in "regex" variable and
+# matches the rest of the line and assign the value to the match_text variable.
 
-    desc = (r"Finding a possible MTA errors and"
-            r"printing the log lines and "
-            r"possible solutions for the errors... ")
+# Then, we are appending the match_text values to the list which is match_list
 
-    parser = optparse.OptionParser(
-        usage='Usage: %prog -i <input file> -o <output file> <options>',
-        description=desc,
-        version='%prog version 1.0')
+# Once the whole file is processed, the match_list output is written to the
+# output file.
 
-    parser.add_option(
-        '-i',
-        '--inputfile',
-        help='File to find/analyze errors.',
-        dest='input_file',
-        action='store',
-        metavar='/home/dselvam/zimbra_support_git/Zimbra-Support-Scripts/error_collection.txt')
+# As of now the script is limited to find only PostFix errors such as bounced, deferred.
+# We are looking forward to add more functions to this script and make as whole module.
 
-    parser.add_option(
-        '-o',
-        '--outputfile',
-        help='File to store the output.',
-        dest='output_file',
-        action='store',
-        metavar='/home/dselvam/zimbra_support_git/Zimbra-Support-Scripts/zimbra_solutions.txt')
-
-    parser.add_option(
-        '-l',
-        '--logfile',
-        help='Log file storing script operations.',
-        dest='log_file',
-        action='store',
-        metavar='/home/dselvam/zimbra_support_git/Zimbra-Support-Scripts/MTA_Log_Parser_Script.log',
-        default='MTA_Log_Parser_Script.log')
-
-    parser.add_option(
-        '-v',
-        '--verbose',
-        help=(r"Log verbosity.."),
-        dest='log_level',
-        action='store_true',
-        default=False)
-
-    (opts, args) = parser.parse_args()
-
-    if not opts.input_file:
-        sys.exit("Error: Specify an input file")
-    if not opts.output_file:
-        sys.exit("Error: Specify an output file")
-
-    if opts.log_level:
-        log_level = 10
-    else:
-        log_level = 20
-
-    log_file = opts.log_file
-    logging.basicConfig(
-        level=log_level,
-        filename=log_file,
-        format='%(asctime)s %(levelname)s %(message)s')
-    print("Starting script. Logging at %s" % log_file)
-    
-    logging.info('Input file is %s' % opts.input_file)
-    logging.debug('Output file is %s' % opts.output_file)
-
-    with open(opts.output_file, 'w') as new_file:
-        with open(opts.input_file) as old_file:
-            for line in old_file:
-                # logging.debug('Modifying %s' % line)
-                new_line = "test \n"
-                #new_line = MTA_Errors().match
-                # logging.debug('Modified to %s' % new_line )
-                new_file.write(new_line)
-
-
-    logging.info('Completed Finding Errors %s' % opts.input_file)
-    print("Script Completed ")
-
-
+def parseData(log_file_path, export_file, regex, read_line=True):
+    with open(log_file_path, "r") as file:
+        match_list = []
+        if read_line == True:
+            for line in file:
+                for match in re.finditer(regex, line, re.S):
+                    match_text = match.group()
+                    match_list.append(match_text)
+                    #print(match_text)
+        else:
+            data = file.read()
+            for match in re.finditer(regex, data, re.S):
+                match_text = match.group();
+                match_list.append(match_text)
+    file.close()
+ 
+    with open(export_file, "w+") as file:
+        file.write("MTA Errors:\n")
+        match_list_clean = list(set(match_list))
+        for item in xrange(0, len(match_list_clean)):
+            #print(match_list_clean[item])
+            file.write(match_list_clean[item] + "\n")
+        file.write("\n" + "Possible Solutions for the above errors could be but not limited to: " + "\n")
+        file.write("Solution 1: " + "\n")
+        file.write("Solution 2: " + "\n")
+    file.close()
+ 
 if __name__ == '__main__':
     main()
+            

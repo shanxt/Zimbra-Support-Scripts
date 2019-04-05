@@ -13,7 +13,7 @@
 # Version       : 1.0
 
 # Input Variables
-#  LOGFILE_NAME = <hard coded for now, it can be added as argument>
+#  -i <inputfile> = <Log file to process>
 
 # Output Variables
 # It prints the output data to a text file 
@@ -26,20 +26,40 @@
 # DOCEND
 
 # ########IMPORTS SECTION########
-
+import sys
 import re
 import time
+import getopt
 from time import strftime
 
 # Main function consists of primary executable code, main() function is not
 # mandatory in Python but it brings order to the program.
 
-def main():
-    log_file_path = "/home/deeps/git_deeps/Zimbra-Support-Scripts/error_collection.txt"
+def main(argv):
+#Initializing the variable to store the file name
+
+    log_file_path = ''
+    
+# Verifying whether any argument passed to the script.    
+    if len(sys.argv) <= 1:
+        print('Usage: MTA_Log_Analyzer.py -i <inputfile>')
+        exit(1)
+
+# Verifying the arguments and printing help text    
+    try:
+        opts, args = getopt.getopt(argv,"hi:",["ifile="])
+    except getopt.GetoptError:
+        print('Usage: MTA_Log_Analyzer.py -i <inputfile>')
+        sys.exit(2)
+    for opt, arg in opts:
+       if opt == '-h':
+           print('Usage: MTA_Log_Analyzer.py -i <inputfile>')
+           sys.exit()
+       elif opt in ("-i", "--ifile"):
+           log_file_path = arg
+    
     export_file_path = "/home/deeps/git_deeps/Zimbra-Support-Scripts/"
- 
     time_now = str(strftime("%Y-%m-%d %H-%M-%S", time.localtime()))
- 
     file = "ParserOutput" + time_now + ".txt"
     export_file = export_file_path + file
     export_file = export_file.replace(' ', '_')
@@ -89,5 +109,5 @@ def parseData(log_file_path, export_file, regex, read_line=True):
     file.close()
  
 if __name__ == '__main__':
-    main()
+    main(sys.argv[1:])
             

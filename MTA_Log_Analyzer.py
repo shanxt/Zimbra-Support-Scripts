@@ -13,7 +13,7 @@
 # Version       : 1.0
 
 # Input Variables
-#  LOGFILE_NAME = <hard coded for now, it can be added as argument>
+#  -i <inputfile> = <Log file to process>
 
 # Output Variables
 # It prints the output data to a text file 

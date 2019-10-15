@@ -38,7 +38,7 @@ from time import strftime
 def main(argv):
 #Initializing the variable to store the file name
 
-    log_file_path = ''
+    log_file_path = '/home/deeps/git_deeps'
     
 # Verifying whether any argument passed to the script.    
     if len(sys.argv) <= 1:
@@ -66,6 +66,7 @@ def main(argv):
  
     #regex = '(?:status=[b|d|s]+.*$)'
     regex = '(?:status=[b|d]+.*$)'
+    #regex = '(status=[b|d]+.*$)'
  
     parseData(log_file_path, export_file, regex, read_line=True)
  
@@ -98,14 +99,30 @@ def parseData(log_file_path, export_file, regex, read_line=True):
     file.close()
  
     with open(export_file, "w+") as file:
-        file.write("MTA Errors:\n")
+        file.write("=============================================================================\n")
+        file.write("                    MTA ERRORS FOUND\n")
+        file.write("=============================================================================\n")
         match_list_clean = list(set(match_list))
-        for item in xrange(0, len(match_list_clean)):
+        for item in range(0, len(match_list_clean)):
             #print(match_list_clean[item])
             file.write(match_list_clean[item] + "\n")
-        file.write("\n" + "Possible Solutions for the above errors could be but not limited to: " + "\n")
-        file.write("Solution 1: " + "\n")
-        file.write("Solution 2: " + "\n")
+        #file.write("\n" + "Possible Solutions for the above errors could be but not limited to: " + "\n")
+        file.write("=============================================================================\n")
+        file.write("                    SOLUTIONS\n")
+        file.write("=============================================================================\n")
+
+        file.write("\nWe can see Bounced and Deferred errors in the log, below are some suggestions\n\
+on how to troubleshoot:" + "\n" + "\n")
+        file.write("Bounced: These errors occur usually if the recipient or domain doesn't exist.\n\
+Please take a look at these elements." + "\n\n" )
+        file.write("Deferred: This would mean the remote server is either not available,\n\
+or is not accepting mails currently. In such cases, errors\n\
+like \"Service temporarily unavailable\" will be shown. It could also\n\
+be a sign of this server being blacklisted due to spamming, and which case\n\
+the number of errors would be large. To confirm this, run\n\
+'/opt/zimbra/libexec/zmqstat' to take a look at the queue.  " + "\n\n")
+        #file.write("Solution 1: " + "\n")
+        #file.write("Solution 2: " + "\n")
     file.close()
  
 if __name__ == '__main__':
